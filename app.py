@@ -22,7 +22,7 @@ warnings.filterwarnings('ignore')
 
 # Set page configuration
 st.set_page_config(
-    page_title="Conversation Analytics Dashboard",
+    page_title="Chat Conversation Analysis",
     page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -356,11 +356,11 @@ def plot_spam_check_analysis(df):
 
 def main():
     # Header
-    st.markdown('<div class="main-header">📊 Conversation Analytics Dashboard</div>', 
+    st.markdown('<div class="main-header"> Chatbot Analysis </div>', 
                 unsafe_allow_html=True)
     
     # Sidebar
-    st.sidebar.title("🎛️ Control Panel")
+    st.sidebar.title("Dataset")
     st.sidebar.markdown("---")
     
     # File upload option
@@ -384,9 +384,7 @@ def main():
         - USER_SENTIMENT
         - USER_SENTIMENT_REASONING
         - SESSION_ID
-        
-        **Note:** Sample data includes bonus quality metrics 
-        (intent_accuracy, spam_check) for demo purposes.
+
         """)
         
         uploaded_file = st.sidebar.file_uploader(
@@ -431,7 +429,7 @@ def main():
         # TAB 1: OVERVIEW
         # ========================================================================
         with tab1:
-            st.header("📈 Data Overview")
+            st.header("Data Overview")
             
             # Check if enhanced features are available
             has_enhanced = has_enhanced_features(df)
@@ -489,7 +487,7 @@ def main():
                 duplicates = df.duplicated().sum()
                 st.write(f"**Duplicates:** {duplicates}")
                 
-                st.subheader("🔢 Column Types")
+                st.subheader(" Column Types")
                 type_df = pd.DataFrame({
                     'Column': df.dtypes.index,
                     'Type': df.dtypes.values
@@ -512,8 +510,8 @@ def main():
             # Enhanced Features Analysis (Intent Accuracy & Spam Check)
             if has_enhanced:
                 st.markdown("---")
-                st.header("🎯 Enhanced Quality Analysis")
-                st.info("📌 These metrics are available in the sample data to demonstrate bot performance quality.")
+                st.header("Quality Analysis")
+                #st.info("📌 These metrics are available in the sample data to demonstrate bot performance quality.")
                 
                 # Intent Accuracy & Spam Check Metrics Side by Side
                 col1, col2 = st.columns(2)
@@ -561,9 +559,9 @@ def main():
                 
                 # Combined insights
                 st.markdown("---")
-                st.subheader("💡 Quality Insights")
+                st.subheader("Insights")
                 
-                col1, col2, col3 = st.columns(3)
+                col1, col2 = st.columns(2)
                 
                 with col1:
                     # Accuracy rate by resolution status
@@ -586,31 +584,18 @@ def main():
                     for sentiment, spam_pct in spam_by_sentiment.items():
                         emoji = "🔴" if spam_pct > 20 else "🟡" if spam_pct > 5 else "🟢"
                         st.write(f"{emoji} {sentiment}: {spam_pct:.1f}%")
-                
-                with col3:
-                    # Combined quality score
-                    quality_score = (accurate_count / total * 100 + not_spam_count / total * 100) / 2
-                    
-                    st.markdown("**⭐ Overall Quality Score:**")
-                    st.metric("Combined Score", f"{quality_score:.1f}%")
-                    
-                    if quality_score >= 90:
-                        st.success("Excellent quality! 🌟")
-                    elif quality_score >= 75:
-                        st.info("Good quality ✓")
-                    else:
-                        st.warning("Needs improvement ⚠️")
+
         
         # ========================================================================
         # TAB 2: TOPIC ANALYSIS
         # ========================================================================
         with tab2:
-            st.header("📊 Topic Analysis")
+            st.header("Topic Analysis")
             
             col1, col2 = st.columns([3, 2])
             
             with col1:
-                st.subheader("📊 Topic Distribution")
+                st.subheader("Topic Distribution")
                 fig = plot_topic_distribution(df)
                 st.pyplot(fig)
             
@@ -652,7 +637,7 @@ def main():
         # TAB 3: RESOLUTION ANALYSIS
         # ========================================================================
         with tab3:
-            st.header("✅ Resolution Analysis")
+            st.header("Resolution Analysis")
             
             # Resolution metrics
             col1, col2, col3, col4 = st.columns(4)
@@ -667,21 +652,21 @@ def main():
             st.markdown("---")
             
             # Visualizations
-            st.subheader("📊 Resolution Status Visualizations")
+            st.subheader("Resolution Status Visualizations")
             fig = plot_resolution_status(df)
             st.pyplot(fig)
             
             st.markdown("---")
             
             # Heatmap
-            st.subheader("🔥 Topic vs Resolution Heatmap")
+            st.subheader("Topic vs Resolution Heatmap")
             fig = plot_heatmap_analysis(df)
             st.pyplot(fig)
             
             st.markdown("---")
             
             # Resolution by topic
-            st.subheader("📊 Resolution Rate by Topic")
+            st.subheader("Resolution Rate by Topic")
             
             resolution_rate = df.groupby('TOPIC').apply(
                 lambda x: (x['RESOLUTION_STATUS'] == 'resolved').sum() / len(x) * 100
@@ -699,7 +684,7 @@ def main():
         # TAB 4: SENTIMENT ANALYSIS
         # ========================================================================
         with tab4:
-            st.header("😊 Sentiment Analysis")
+            st.header("Sentiment Analysis")
             
             # Sentiment metrics
             col1, col2, col3 = st.columns(3)
@@ -722,14 +707,14 @@ def main():
             st.markdown("---")
             
             # Visualizations
-            st.subheader("📊 Sentiment Visualizations")
+            st.subheader("Sentiment Visualizations")
             fig = plot_sentiment_analysis(df)
             st.pyplot(fig)
             
             st.markdown("---")
             
             # Sentiment by topic
-            st.subheader("📊 Sentiment Distribution by Topic")
+            st.subheader("Sentiment Distribution by Topic")
             
             sentiment_by_topic = pd.crosstab(df['TOPIC'], df['USER_SENTIMENT'])
             
@@ -750,7 +735,7 @@ def main():
         # TAB 5: TEXT ANALYSIS
         # ========================================================================
         with tab5:
-            st.header("📝 Text Analysis")
+            st.header("Text Analysis")
             
             # Text statistics
             col1, col2 = st.columns(2)
