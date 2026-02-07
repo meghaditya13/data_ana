@@ -22,7 +22,7 @@ warnings.filterwarnings('ignore')
 
 # Set page configuration
 st.set_page_config(
-    page_title="Chat Conversation Analysis",
+    page_title="Chatbot Data Analysis",
     page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -356,7 +356,7 @@ def plot_spam_check_analysis(df):
 
 def main():
     # Header
-    st.markdown('<div class="main-header"> Chatbot Analysis </div>', 
+    st.markdown('<div class="main-header"> Data Analysis </div>', 
                 unsafe_allow_html=True)
     
     # Sidebar
